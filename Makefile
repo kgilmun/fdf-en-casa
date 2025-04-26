@@ -20,7 +20,7 @@ MLX = $(MLX_DIR)/libmlx.a
 
 #HEADERS = $(LIB_DIR)/libft.h $(GNL_DIR)/get_next_line.h NO SE SI HAY QUE HACER ALGO CON ESTO
 
-SRCS = abrir_ventana.c\
+SRCS = main.c open_window.c read_map.c store_points.c\
 	$(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c
 
 
