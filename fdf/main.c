@@ -25,6 +25,9 @@ int	main(int argc, char **argv)
 	int		**matrix;
 	int		fd;
 
+
+	vars.offset_x = 1000;
+	vars.offset_y = 750;
 	if (argc != 2)
 		return (1);
 	if (count_map_dimensions(argv[1], &vars))

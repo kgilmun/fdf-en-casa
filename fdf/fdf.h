@@ -13,6 +13,9 @@
 #ifndef FDF_H
 #define FDF_H
 
+#define SCALE 50
+#include <math.h>
+
 typedef struct s_point
 {
 	int	x;
@@ -32,6 +35,8 @@ typedef struct s_vars
 	int		height;
 	int		width;
 	t_point	**points;
+	int offset_x;
+	int offset_y;
 }	t_vars;
 
 
@@ -61,5 +66,6 @@ void	free_split(char **split);
 t_point	**store_points(int **matriz, int height, int width);
 void draw_line(t_vars *vars, t_point p0, t_point p1);
 void draw_map(t_vars *vars);
+void apply_isometric(t_point *p);
 
 #endif

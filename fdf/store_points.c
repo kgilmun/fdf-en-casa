@@ -35,9 +35,9 @@ t_point	**store_points(int **matriz, int height, int width)
 		j = 0;
 		while (j < width)
 		{
-			points[i][j].x = j;
-			points[i][j].y = i;
-			points[i][j].z = matriz[i][j];
+			points[i][j].x = j * SCALE;
+			points[i][j].y = i * SCALE;
+			points[i][j].z = matriz[i][j] * SCALE;
 			j++; 
 		}
 		i++;
