@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-void ft_arrow_move(int keycode, t_vars *vars)
+void	ft_arrow_move(int keycode, t_vars *vars)
 {
 	if (keycode == ARROW_LEFT)
 		vars->offset_x -= 10;
@@ -25,15 +25,12 @@ void ft_arrow_move(int keycode, t_vars *vars)
 	draw_map(vars);
 }
 
-
-
 int	ft_keypress(int keycode, void *params)
 {
 	t_vars	*vars;
 
-	printf("Tecla: %d\n", keycode);
 	vars = (t_vars *)params;
-	if (keycode == ARROW_LEFT || keycode == ARROW_RIGHT 
+	if (keycode == ARROW_LEFT || keycode == ARROW_RIGHT
 		|| keycode == ARROW_DOWN || keycode == ARROW_UP)
 		ft_arrow_move(keycode, vars);
 	else if (keycode == ESC)
@@ -41,7 +38,7 @@ int	ft_keypress(int keycode, void *params)
 	return (0);
 }
 
-void	ft_hook_controls (t_vars *var)
+void	ft_hook_controls(t_vars *var)
 {
 	mlx_hook(var->win, 2, 1L << 0, ft_keypress, var);
 }

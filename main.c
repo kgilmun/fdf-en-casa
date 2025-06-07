@@ -19,11 +19,11 @@ int	main(int argc, char **argv)
 	int		**matrix;
 	int		fd;
 
-	vars.offset_x = WIDTH / 2.3;
-	vars.offset_y = HEIGHT / 3;
+	vars.offset_x = WIDTH / 2;
+	vars.offset_y = HEIGHT / 2;
 	if (argc != 2)
 		return (1);
-	if (count_map_dimensions(argv[1], &vars))
+	if (count_map_dimensions(argv[1], &vars) || invalid_map(argv[1], &vars))
 		return (1);
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)

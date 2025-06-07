@@ -19,104 +19,57 @@
 
 void	free_split(char **split)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
+		free(split[i++]);
 	free(split);
+}
+
+static void	fill_matrix_row(int *row, char **split, int width)
+{
+	int	j;
+
+	j = 0;
+	while (j < width)
+	{
+		row[j] = ft_atoi(split[j]);
+		j++;
+	}
 }
 
 int	**create_matrix(int width, int height, int fd)
 {
-	int	**matriz;
-	char	**split;
-	char	*line;
-	int	i = 0;
-	int	j;
-
-	line = get_next_line(fd);
-	matriz = (int **)malloc(height * sizeof(int *));
-	if (!matriz)
-		return (NULL);
-	while (line)
-	{
-		split = ft_split(line, ' ');
-		matriz[i] = (int *)malloc(width * sizeof(int));
-		j = 0;
-		while (j < width)
-		{
-			matriz[i][j] = ft_atoi(split[j]);
-			j++;
-		}
-		free_split(split);
-		free(line);
-		line = get_next_line(fd);
-		i++;
-	}
-	return (matriz);
-}
-
-int	count_map_dimensions(char *filename, t_vars *vars)
-{
-	int		fd;
+	int		**matrix;
 	char	*line;
 	char	**split;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (1);
-	vars->height = 0;
-	vars->width = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		vars->height++;
-		split = ft_split(line, ' ');
-		if (vars->width == 0)
-		{
-			while (split[vars->width])
-				vars->width++;
-		}
-		free_split(split);
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	close(fd);
-	return (0);
-}
-
-void	print_matrix(int **matrix, int width, int height)
-{
-	int	i, j;
+	int		i;
 
 	i = 0;
-	while (i < height)
+	matrix = (int **)malloc(height * sizeof(int *));
+	if (!matrix)
+		return (NULL);
+	line = get_next_line(fd);
+	while (line)
 	{
-		printf("Fila %d:\n", i);
-		j = 0;
-		while (j < width)
-		{
-			printf("%d ", matrix[i][j]);
-			j++;
-		}
-		printf("\n");
+		split = ft_split(line, ' ');
+		matrix[i] = (int *)malloc(width * sizeof(int));
+		fill_matrix_row(matrix[i], split, width);
+		free_split(split);
+		free(line);
+		line = get_next_line(fd);
 		i++;
 	}
+	return (matrix);
 }
 
 void	free_matrix(int **matrix, int height)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (i < height)
-	{
-		free(matrix[i]);
-		i++;
-	}
+		free(matrix[i++]);
 	free(matrix);
 }
-

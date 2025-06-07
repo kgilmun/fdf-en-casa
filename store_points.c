@@ -16,8 +16,8 @@
 t_point	**store_points(int **matriz, int height, int width)
 {
 	t_point	**points;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	points = (t_point **)malloc(height * sizeof(t_point *));
 	if (!points)
@@ -31,36 +31,18 @@ t_point	**store_points(int **matriz, int height, int width)
 		j = 0;
 		while (j < width)
 		{
-			points[i][j].x = j * SCALE;
-			points[i][j].y = i * SCALE;
-			points[i][j].z = matriz[i][j] * SCALE;
+			points[i][j].x = j * (SCALE / width);
+			points[i][j].y = i * (SCALE / width);
+			points[i][j].z = matriz[i][j] * (SCALE / width);
 			if (matriz[i][j] == 0)
-				points[i][j].color = 0xFFFFFF; // blanco
+				points[i][j].color = 0xFFFFFF;
 			else if (matriz[i][j] < 0)
 				points[i][j].color = 0x00FF00 + (matriz[i][j] * 1000);
 			else
 				points[i][j].color = 0xFF00FF + (matriz[i][j] * 1000);
-			j++; 
-			
+			j++;
 		}
 		i++;
 	}
-	/*i = 0;
-
-	while (i < height)
-	{
-    		j = 0;
-    		while (j < width)
-    		{
-        		printf("Punto (%d, %d): x=%d, y=%d, z=%d\n",
-               		i, j,
-               		points[i][j].x,
-               		points[i][j].y,
-               		points[i][j].z);
-        		j++;
-    		}
-    		i++;
-	}
-*/
-	return (points);	
+	return (points);
 }

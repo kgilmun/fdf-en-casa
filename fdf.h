@@ -13,14 +13,15 @@
 #ifndef FDF_H
 # define FDF_H
 
-# define WIDTH 2500
+# define WIDTH 1500
 # define HEIGHT 1500
-# define SCALE 20
+# define SCALE 700
 # define ARROW_LEFT 65361
 # define ARROW_RIGHT 65363
 # define ARROW_DOWN 65364
 # define ARROW_UP 65362
 # define ESC 65307
+# define ISO_ANGLE 0.523599f
 # include <math.h>
 # include <mlx.h>
 # include <stdio.h>
@@ -68,7 +69,6 @@ int		close_window(void *param);
 int		**create_matrix(int width, int height, int fd);
 void	free_split(char **split);
 void	free_matrix(int **matrix, int height);
-void	print_matrix(int **matrix, int width, int height);
 int		count_map_dimensions(char *filename, t_vars *vars);
 int		**create_matrix(int width, int height, int fd);
 void	free_split(char **split);
@@ -83,5 +83,10 @@ void	clear_image(t_vars *vars);
 float	get_fraction(int start, int end, int current);
 int		interpolate_color(int color1, int color2, float fraction);
 void	draw_line_pixels(t_vars *vars, t_point p0, t_point p1, t_line *line);
+float	calculate_scale(t_vars *vars);
+void	draw_connections(t_vars *vars, float scale, int i, int j);
+void	init_offsets(t_vars *vars);
+void	calculate_offsets(t_vars *vars);
+int		invalid_map(char *filename, t_vars *vars);
 
 #endif

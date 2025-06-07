@@ -12,71 +12,47 @@
 
 #include "fdf.h"
 
-void	clear_image(t_vars *vars)
+void	draw_line(t_vars *vars, t_point p0, t_point p1)
 {
-	int x, y;
-	x = 0;
-	while (x < 2000)
-	{
-		y = 0;
-		while (y < 1500)
-		{
-			my_mlx_pixel_put(vars, x, y, 0x000000); // fondo negro
-			y++;
-		}
-		x++;
-	}
-}
-
-void apply_isometric(t_point *p)
-{
-	float z_scale = 0.1;
-	int prev_x = p->x;
-	int prev_y = p->y;
-
-	p->x = (prev_x - prev_y) * cos(0.523599); // 30° en radianes
-	p->y = (prev_x + prev_y) * sin(0.523599) - (p->z * z_scale);
-}
-
-void draw_line(t_vars *vars, t_point p0, t_point p1)
-{
-	t_line line;
+	t_line	line;
 
 	apply_isometric(&p0);
 	apply_isometric(&p1);
-
-	// Aplicar centrado
 	p0.x += vars->offset_x;
 	p0.y += vars->offset_y;
 	p1.x += vars->offset_x;
 	p1.y += vars->offset_y;
-
 	line.dx = abs(p1.x - p0.x);
 	line.dy = abs(p1.y - p0.y);
-	line.sx = (p0.x < p1.x) ? 1 : -1;
-	line.sy = (p0.y < p1.y) ? 1 : -1;
+	if (p0.x < p1.x)
+		line.sx = 1;
+	else
+		line.sx = -1;
+	if (p0.y < p1.y)
+		line.sy = 1;
+	else
+		line.sy = -1;
 	line.err = line.dx - line.dy;
-
 	draw_line_pixels(vars, p0, p1, &line);
 }
 
-void draw_line_pixels(t_vars *vars, t_point p0, t_point p1, t_line *line)
+void	draw_line_pixels(t_vars *vars, t_point p0, t_point p1, t_line *line)
 {
-	int x = p0.x;
-	int y = p0.y;
-	float fraction;
-	int color;
+	int		x;
+	int		y;
+	float	fraction;
+	int		color;
 
+	x = p0.x;
+	y = p0.y;
 	while (x != p1.x || y != p1.y)
 	{
 		if (line->dx > line->dy)
 			fraction = get_fraction(p0.x, p1.x, x);
 		else
 			fraction = get_fraction(p0.y, p1.y, y);
-
 		color = interpolate_color(p0.color, p1.color, fraction);
 		my_mlx_pixel_put(vars, x, y, color);
-
 		line->e2 = 2 * line->err;
 		if (line->e2 > -line->dy)
 		{
@@ -93,13 +69,12 @@ void draw_line_pixels(t_vars *vars, t_point p0, t_point p1, t_line *line)
 	my_mlx_pixel_put(vars, x, y, color);
 }
 
-
-void draw_map(t_vars *vars)
+void	draw_map(t_vars *vars)
 {
-	int i, j;
+	int	i;
+	int	j;
 
 	clear_image(vars);
-
 	i = 0;
 	while (i < vars->height)
 	{
